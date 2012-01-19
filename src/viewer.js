@@ -75,28 +75,28 @@ $.Viewer = function( options ) {
             mouseNavEnabled:    true,
             navImages: {
                 zoomIn: {
-                    REST:   '/images/zoomin_rest.png',
-                    GROUP:  '/images/zoomin_grouphover.png',
-                    HOVER:  '/images/zoomin_hover.png',
-                    DOWN:   '/images/zoomin_pressed.png'
+                    REST:   '/images/embed/seadragon/zoomin_rest.png',
+                    GROUP:  '/images/embed/seadragon/zoomin_grouphover.png',
+                    HOVER:  '/images/embed/seadragon/zoomin_hover.png',
+                    DOWN:   '/images/embed/seadragon/zoomin_pressed.png'
                 },
                 zoomOut: {
-                    REST:   '/images/zoomout_rest.png',
-                    GROUP:  '/images/zoomout_grouphover.png',
-                    HOVER:  '/images/zoomout_hover.png',
-                    DOWN:   '/images/zoomout_pressed.png'
+                    REST:   '/images/embed/seadragon/zoomout_rest.png',
+                    GROUP:  '/images/embed/seadragon/zoomout_grouphover.png',
+                    HOVER:  '/images/embed/seadragon/zoomout_hover.png',
+                    DOWN:   '/images/embed/seadragon/zoomout_pressed.png'
                 },
                 home: {
-                    REST:   '/images/home_rest.png',
-                    GROUP:  '/images/home_grouphover.png',
-                    HOVER:  '/images/home_hover.png',
-                    DOWN:   '/images/home_pressed.png'
+                    REST:   '/images/embed/seadragon/home_rest.png',
+                    GROUP:  '/images/embed/seadragon/home_grouphover.png',
+                    HOVER:  '/images/embed/seadragon/home_hover.png',
+                    DOWN:   '/images/embed/seadragon/home_pressed.png'
                 },
                 fullpage: {
-                    REST:   '/images/fullpage_rest.png',
-                    GROUP:  '/images/fullpage_grouphover.png',
-                    HOVER:  '/images/fullpage_hover.png',
-                    DOWN:   '/images/fullpage_pressed.png'
+                    REST:   '/images/embed/seadragon/fullpage_rest.png',
+                    GROUP:  '/images/embed/seadragon/fullpage_grouphover.png',
+                    HOVER:  '/images/embed/seadragon/fullpage_hover.png',
+                    DOWN:   '/images/embed/seadragon/fullpage_pressed.png'
                 }
             }
         },
