@@ -49,8 +49,6 @@
             </filterchain>
             <filelist refid="openseadragon.javascript" />
         </concat>
-
-        <copy todir='${WWW}' file='openseadragon.js' />
         
     </target>
 
