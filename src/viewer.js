@@ -387,12 +387,6 @@ $.extend($.Viewer.prototype, $.EventHandler.prototype, {
 
         this._lastOpenEndTime = new Date().getTime();
 
-        if ( this._lastOpenStartTime < viewer._lastOpenStartTime ) {
-            $.Debug.log( "Ignoring out-of-date open." );
-            this.raiseEvent( "ignore" );
-            return;
-        }
-
         this.canvas.innerHTML = "";
         this._prevContainerSize = $.getElementSize( this.container );
 
