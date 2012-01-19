@@ -343,15 +343,24 @@ $.extend($.Viewer.prototype, $.EventHandler.prototype, {
         return !!this.source;
     },
 
-    openDzi: function (xmlUrl, xmlString) {
+    openDzi: function (xmlUrlOrJsonObj, xmlString) {
         var _this = this;
-        $.DziTileSourceHelper.createFromXml(
-            xmlUrl, 
-            xmlString,
-            function( source ){
-               _this.open( source );
-            }
-        );
+        var callback = function( source ) {
+            _this.open( source );
+        };
+        switch(typeof(xmlUrlOrJsonObj)) {
+        case "string":
+            $.DziTileSourceHelper.createFromXml(
+                xmlUrlOrJsonObj, 
+                xmlString,
+                callback
+            );
+        default:
+            $.DziTileSourceHelper.createFromJson(
+                xmlUrlOrJsonObj,
+                callback
+            );
+        }
     },
 
     openTileSource: function ( tileSource ) {

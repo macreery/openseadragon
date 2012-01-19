@@ -1666,15 +1666,24 @@ $.extend($.Viewer.prototype, $.EventHandler.prototype, {
         return !!this.source;
     },
 
-    openDzi: function (xmlUrl, xmlString) {
+    openDzi: function (xmlUrlOrJsonObj, xmlString) {
         var _this = this;
-        $.DziTileSourceHelper.createFromXml(
-            xmlUrl, 
-            xmlString,
-            function( source ){
-               _this.open( source );
-            }
-        );
+        var callback = function( source ) {
+            _this.open( source );
+        };
+        switch(typeof(xmlUrlOrJsonObj)) {
+        case "string":
+            $.DziTileSourceHelper.createFromXml(
+                xmlUrlOrJsonObj, 
+                xmlString,
+                callback
+            );
+        default:
+            $.DziTileSourceHelper.createFromJson(
+                xmlUrlOrJsonObj,
+                callback
+            );
+        }
     },
 
     openTileSource: function ( tileSource ) {
@@ -2588,15 +2597,8 @@ $.DziTileSourceHelper = {
             throw new Error(error);
         }
 
-        var urlParts = xmlUrl.split('/');
-        var filename = urlParts[urlParts.length - 1];
-        var lastDot = filename.lastIndexOf('.');
+        var tilesUrl = this.getTilesUrl(xmlUrl);
 
-        if (lastDot > -1) {
-            urlParts[urlParts.length - 1] = filename.slice(0, lastDot);
-        }
-
-        var tilesUrl = urlParts.join('/') + "_files/";
         function finish(func, obj) {
             try {
                 return func(obj, tilesUrl);
@@ -2632,6 +2634,53 @@ $.DziTileSourceHelper = {
             return finish($.delegate(this, this.processResponse), $.makeAjaxRequest(xmlUrl));
         }
     },
+
+    createFromJson: function(jsonObj, callback) {
+        var async = typeof(callback) == "function";
+        var source, error;
+        var dzi = jsonObj;
+        
+        if (!dzi || (!dzi.url && !dzi.tilesUrl)) {
+            this.error = $.Strings.getString("Errors.Empty");
+            if (async) {
+                window.setTimeout(function() {
+                    callback(null, error);
+                }, 1);
+                return null;
+            }
+            throw new Error(error);
+
+        } else {
+            try {
+                // TODO: Implement displayRects handling, per
+                // http://aseemk.github.com/seadragon-ajax/doc/Seadragon.DziTileSource.html
+                source = new $.DziTileSource(
+                    dzi.width,
+                    dzi.height,
+                    dzi.tileSize,
+                    dzi.tileOverlap,
+                    dzi.tilesUrl || this.getTilesUrl(dzi.url),
+                    dzi.tileFormat,
+                    dzi.displayRects
+                );
+                
+                source.xmlUrl = dzi.url;   
+            } catch (e) {
+                this.error = getError(e);
+            }            
+        }
+        
+        if (async) {
+            window.setTimeout(function() {
+                callback(source, error);    // call after finish sets error
+            }, 1);
+        } else if (error) {
+            throw new Error(error);
+        } else {
+            return source;
+        }
+    },
+
     processResponse: function(xhr, tilesUrl) {
         if (!xhr) {
             throw new Error($.Strings.getString("Errors.Security"));
@@ -2715,6 +2764,18 @@ $.DziTileSourceHelper = {
         var message = messageNode.firstChild.nodeValue;
 
         throw new Error(message);
+    },
+    
+    getTilesUrl: function(xmlUrl) {
+        var urlParts = xmlUrl.split('/');
+        var filename = urlParts[urlParts.length - 1];
+        var lastDot = filename.lastIndexOf('.');
+
+        if (lastDot > -1) {
+            urlParts[urlParts.length - 1] = filename.slice(0, lastDot);
+        }
+
+        return urlParts.join('/') + "_files/";
     }
 };
 
