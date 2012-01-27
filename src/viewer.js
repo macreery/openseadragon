@@ -107,7 +107,7 @@ $.Viewer = function( options ) {
 
         //These are originally not part options but declared as members
         //in initialize.  Its still considered idiomatic to put them here
-        source:     null,
+        source:     null, 
         drawer:     null,
         viewport:   null,
         profiler:   null,
@@ -125,6 +125,9 @@ $.Viewer = function( options ) {
     this.element        = document.getElementById( options.id );
     this.container      = $.makeNeutralElement("div");
     this.canvas         = $.makeNeutralElement("div");
+
+    this.container.className = "seadragon_container";
+    this.canvas.className = "seadragon_canvas";
 
     this._fsBoundsDelta     = new $.Point( 1, 1 );
     this._prevContainerSize = null;
