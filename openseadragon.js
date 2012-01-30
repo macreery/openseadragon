@@ -4126,6 +4126,9 @@ function numberOfTiles( drawer, level ){
 (function( $ ){
     
 $.Viewport = function(containerSize, contentSize, config) {
+
+    $.EventHandler.call( this );
+
     //TODO: this.config is something that should go away but currently the 
     //      Drawer references the viewport.config
     this.config = config;
@@ -4159,7 +4162,7 @@ $.Viewport = function(containerSize, contentSize, config) {
     this.update();
 };
 
-$.Viewport.prototype = {
+$.extend($.Viewport.prototype, $.EventHandler.prototype, {
     getHomeZoom: function() {
         var aspectFactor = this.contentAspect / this.getAspectRatio();
         return (aspectFactor >= 1) ? 1 : aspectFactor;
@@ -4410,6 +4413,7 @@ $.Viewport.prototype = {
             this.zoomSpring.springTo(zoom);
         }
 
+        this.raiseEvent( "zoom", this );
         this.zoomPoint = refPoint instanceof $.Point ? refPoint : null;
     },
 
@@ -4492,6 +4496,6 @@ $.Viewport.prototype = {
             bounds.getTopLeft()
         );
     }
-};
+});
 
 }( OpenSeadragon ));
