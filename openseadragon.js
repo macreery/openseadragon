@@ -1369,7 +1369,7 @@ $.Viewer = function( options ) {
     $.extend( true, this, { 
         id:                 options.id,
         xmlPath:            null,
-        prefixUrl:          '',
+        prefixUrl:          "http://seadragon.com/ajax/0.8/img/",
         controls:           [],
         overlays:           [],
         overlayControls:    [],
@@ -1398,28 +1398,28 @@ $.Viewer = function( options ) {
             mouseNavEnabled:    true,
             navImages: {
                 zoomIn: {
-                    REST:   '/images/embed/seadragon/zoomin_rest.png',
-                    GROUP:  '/images/embed/seadragon/zoomin_grouphover.png',
-                    HOVER:  '/images/embed/seadragon/zoomin_hover.png',
-                    DOWN:   '/images/embed/seadragon/zoomin_pressed.png'
+                    REST:   'zoomin_rest.png',
+                    GROUP:  'zoomin_grouphover.png',
+                    HOVER:  'zoomin_hover.png',
+                    DOWN:   'zoomin_pressed.png'
                 },
                 zoomOut: {
-                    REST:   '/images/embed/seadragon/zoomout_rest.png',
-                    GROUP:  '/images/embed/seadragon/zoomout_grouphover.png',
-                    HOVER:  '/images/embed/seadragon/zoomout_hover.png',
-                    DOWN:   '/images/embed/seadragon/zoomout_pressed.png'
+                    REST:   'zoomout_rest.png',
+                    GROUP:  'zoomout_grouphover.png',
+                    HOVER:  'zoomout_hover.png',
+                    DOWN:   'zoomout_pressed.png'
                 },
                 home: {
-                    REST:   '/images/embed/seadragon/home_rest.png',
-                    GROUP:  '/images/embed/seadragon/home_grouphover.png',
-                    HOVER:  '/images/embed/seadragon/home_hover.png',
-                    DOWN:   '/images/embed/seadragon/home_pressed.png'
+                    REST:   'home_rest.png',
+                    GROUP:  'home_grouphover.png',
+                    HOVER:  'home_hover.png',
+                    DOWN:   'home_pressed.png'
                 },
                 fullpage: {
-                    REST:   '/images/embed/seadragon/fullpage_rest.png',
-                    GROUP:  '/images/embed/seadragon/fullpage_grouphover.png',
-                    HOVER:  '/images/embed/seadragon/fullpage_hover.png',
-                    DOWN:   '/images/embed/seadragon/fullpage_pressed.png'
+                    REST:   'fullpage_rest.png',
+                    GROUP:  'fullpage_grouphover.png',
+                    HOVER:  'fullpage_hover.png',
+                    DOWN:   'fullpage_pressed.png'
                 }
             }
         },
@@ -1539,64 +1539,64 @@ $.Viewer = function( options ) {
     var onHomeHandler           = $.delegate(this, onHome);
     var onFullPageHandler       = $.delegate(this, onFullPage);
 
-    var navImages = this.config.navImages;
-
-    var zoomIn = new $.Button({ 
-        config:     this.config, 
-        tooltip:    $.Strings.getString("Tooltips.ZoomIn"), 
-        srcRest:    resolveUrl(this.urlPrefix, navImages.zoomIn.REST), 
-        srcGroup:   resolveUrl(this.urlPrefix, navImages.zoomIn.GROUP), 
-        srcHover:   resolveUrl(this.urlPrefix, navImages.zoomIn.HOVER), 
-        srcDown:    resolveUrl(this.urlPrefix, navImages.zoomIn.DOWN),
-        onPress:    beginZoomingInHandler, 
-        onRelease:  endZoomingHandler, 
-        onClick:    doSingleZoomInHandler, 
-        onEnter:    beginZoomingInHandler, 
-        onExit:     endZoomingHandler 
-    });
-
-    var zoomOut = new $.Button({ 
-        config:     this.config, 
-        tooltip:    $.Strings.getString("Tooltips.ZoomOut"), 
-        srcRest:    resolveUrl(this.urlPrefix, navImages.zoomOut.REST), 
-        srcGroup:   resolveUrl(this.urlPrefix, navImages.zoomOut.GROUP), 
-        srcHover:   resolveUrl(this.urlPrefix, navImages.zoomOut.HOVER), 
-        srcDown:    resolveUrl(this.urlPrefix, navImages.zoomOut.DOWN),
-        onPress:    beginZoomingOutHandler, 
-        onRelease:  endZoomingHandler, 
-        onClick:    doSingleZoomOutHandler, 
-        onEnter:    beginZoomingOutHandler, 
-        onExit:     endZoomingHandler 
-    });
-    var goHome = new $.Button({ 
-        config:     this.config, 
-        tooltip:    $.Strings.getString("Tooltips.Home"), 
-        srcRest:    resolveUrl(this.urlPrefix, navImages.home.REST), 
-        srcGroup:   resolveUrl(this.urlPrefix, navImages.home.GROUP), 
-        srcHover:   resolveUrl(this.urlPrefix, navImages.home.HOVER), 
-        srcDown:    resolveUrl(this.urlPrefix, navImages.home.DOWN),
-        onRelease:  onHomeHandler 
-    });
-    var fullPage = new $.Button({ 
-        config:     this.config, 
-        tooltip:    $.Strings.getString("Tooltips.FullPage"), 
-        srcRest:    resolveUrl(this.urlPrefix, navImages.fullpage.REST), 
-        srcGroup:   resolveUrl(this.urlPrefix, navImages.fullpage.GROUP), 
-        srcHover:   resolveUrl(this.urlPrefix, navImages.fullpage.HOVER), 
-        srcDown:    resolveUrl(this.urlPrefix, navImages.fullpage.DOWN),
-        onRelease:  onFullPageHandler 
-    });
-
-    this._group = new $.ButtonGroup({ 
-        config:     this.config, 
-        buttons:    [ zoomIn, zoomOut, goHome, fullPage ] 
-    });
-
-    this.navControl  = this._group.element;
-    this.navControl[ $.SIGNAL ] = true;   // hack to get our controls to fade
-    this.addHandler( 'open', $.delegate( this, lightUp ) );
-
     if ( this.config.showNavigationControl ) {
+        var navImages = this.config.navImages;
+
+        var zoomIn = new $.Button({ 
+            config:     this.config, 
+            tooltip:    $.Strings.getString("Tooltips.ZoomIn"), 
+            srcRest:    resolveUrl(this.prefixUrl, navImages.zoomIn.REST), 
+            srcGroup:   resolveUrl(this.prefixUrl, navImages.zoomIn.GROUP), 
+            srcHover:   resolveUrl(this.prefixUrl, navImages.zoomIn.HOVER), 
+            srcDown:    resolveUrl(this.prefixUrl, navImages.zoomIn.DOWN),
+            onPress:    beginZoomingInHandler, 
+            onRelease:  endZoomingHandler, 
+            onClick:    doSingleZoomInHandler, 
+            onEnter:    beginZoomingInHandler, 
+            onExit:     endZoomingHandler 
+        });
+
+        var zoomOut = new $.Button({ 
+            config:     this.config, 
+            tooltip:    $.Strings.getString("Tooltips.ZoomOut"), 
+            srcRest:    resolveUrl(this.prefixUrl, navImages.zoomOut.REST), 
+            srcGroup:   resolveUrl(this.prefixUrl, navImages.zoomOut.GROUP), 
+            srcHover:   resolveUrl(this.prefixUrl, navImages.zoomOut.HOVER), 
+            srcDown:    resolveUrl(this.prefixUrl, navImages.zoomOut.DOWN),
+            onPress:    beginZoomingOutHandler, 
+            onRelease:  endZoomingHandler, 
+            onClick:    doSingleZoomOutHandler, 
+            onEnter:    beginZoomingOutHandler, 
+            onExit:     endZoomingHandler 
+        });
+        var goHome = new $.Button({ 
+            config:     this.config, 
+            tooltip:    $.Strings.getString("Tooltips.Home"), 
+            srcRest:    resolveUrl(this.prefixUrl, navImages.home.REST), 
+            srcGroup:   resolveUrl(this.prefixUrl, navImages.home.GROUP), 
+            srcHover:   resolveUrl(this.prefixUrl, navImages.home.HOVER), 
+            srcDown:    resolveUrl(this.prefixUrl, navImages.home.DOWN),
+            onRelease:  onHomeHandler 
+        });
+        var fullPage = new $.Button({ 
+            config:     this.config, 
+            tooltip:    $.Strings.getString("Tooltips.FullPage"), 
+            srcRest:    resolveUrl(this.prefixUrl, navImages.fullpage.REST), 
+            srcGroup:   resolveUrl(this.prefixUrl, navImages.fullpage.GROUP), 
+            srcHover:   resolveUrl(this.prefixUrl, navImages.fullpage.HOVER), 
+            srcDown:    resolveUrl(this.prefixUrl, navImages.fullpage.DOWN),
+            onRelease:  onFullPageHandler 
+        });
+
+        this._group = new $.ButtonGroup({ 
+            config:     this.config, 
+            buttons:    [ zoomIn, zoomOut, goHome, fullPage ] 
+        });
+
+        this.navControl  = this._group.element;
+        this.navControl[ $.SIGNAL ] = true;   // hack to get our controls to fade
+        this.addHandler( 'open', $.delegate( this, lightUp ) );
+
         this.navControl.style.marginRight = "4px";
         this.navControl.style.marginBottom = "4px";
         this.addControl(this.navControl, $.ControlAnchor.BOTTOM_RIGHT);
