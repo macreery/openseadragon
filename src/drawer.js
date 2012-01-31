@@ -465,7 +465,7 @@ $.Drawer.prototype = {
                         } else if (deltaTime < blendTimeMillis) {
                             updateAgain = true;
                         }
-                    } else if (tile.Loading) {
+                    } else if (tile.loading) {
                     } else {
                         best = this._compareTiles(best, tile);
                     }
