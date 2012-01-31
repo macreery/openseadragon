@@ -2515,8 +2515,9 @@ $.TileSource.prototype = {
 (function( $ ){
     
 
-$.DziTileSource = function(width, height, tileSize, tileOverlap, tilesUrl, fileFormat, displayRects) {
-    $.TileSource.call(this, width, height, tileSize, tileOverlap, null, null);
+$.DziTileSource = function(width, height, tileSize, tileOverlap, tilesUrl, fileFormat, displayRects, 
+                           minLevel, maxLevel) {
+    $.TileSource.call(this, width, height, tileSize, tileOverlap, minLevel, maxLevel);
 
     this._levelRects = {};
     this.tilesUrl = tilesUrl;
@@ -2658,7 +2659,9 @@ $.DziTileSourceHelper = {
                     dzi.tileOverlap,
                     dzi.tilesUrl || this.getTilesUrl(dzi.url),
                     dzi.tileFormat,
-                    dzi.displayRects
+                    dzi.displayRects,
+                    dzi.minLevel,
+                    dzi.maxLevel
                 );
                 
                 source.xmlUrl = dzi.url;   
@@ -2753,7 +2756,7 @@ $.DziTileSourceHelper = {
             ));
         }
         return new $.DziTileSource(width, height, tileSize, tileOverlap,
-                tilesUrl, fileFormat, dispRects);
+                tilesUrl, fileFormat, dispRects, null, null);
     },
 
     processError: function(errorNode) {
