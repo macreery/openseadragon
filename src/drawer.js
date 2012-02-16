@@ -487,7 +487,9 @@ $.Drawer.prototype = {
                     tile.drawHTML(_canvas);
                 }
             } catch (error) {
-                this.viewport.viewer.raiseEvent( "error" );
+                if (this.viewport.viewer) {
+                    this.viewport.viewer.raiseEvent( "error" );
+                }
                 throw error;
             }
 
