@@ -593,6 +593,7 @@ $.Drawer.prototype = {
                         );
                     }
                 }
+                _this.viewport.raiseEvent( "tiledrawn" );
             };
 
             image.onload = function(){

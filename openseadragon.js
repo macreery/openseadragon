@@ -767,6 +767,10 @@ OpenSeadragon = window.OpenSeadragon || (function(){
             events[ events.length ] = handler;
         },
 
+        removeAllHandlers: function( id, handler ) {
+            this.events[ id ] = [];
+        },
+
         removeHandler: function( id, handler ) {
             //Start Thatcher - unneccessary indirection.  Also, because events were
             //               - not actually being removed, we need to add the code
@@ -4078,6 +4082,7 @@ $.Drawer.prototype = {
                         );
                     }
                 }
+                _this.viewport.raiseEvent( "tiledrawn" );
             };
 
             image.onload = function(){
