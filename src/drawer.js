@@ -480,10 +480,15 @@ $.Drawer.prototype = {
         for (var i = _lastDrawn.length - 1; i >= 0; i--) {
             var tile = _lastDrawn[i];
 
-            if ( USE_CANVAS ) {
-                tile.drawCanvas(_context);
-            } else {
-                tile.drawHTML(_canvas);
+            try {
+                if ( USE_CANVAS ) {
+                    tile.drawCanvas(_context);
+                } else {
+                    tile.drawHTML(_canvas);
+                }
+            } catch (error) {
+                this.viewport.viewer.raiseEvent( "error" );
+                throw error;
             }
 
             tile.beingDrawn = true;
