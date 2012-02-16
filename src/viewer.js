@@ -398,8 +398,9 @@ $.extend($.Viewer.prototype, $.EventHandler.prototype, {
         }
         this.viewport = new $.Viewport( 
             this._prevContainerSize, 
-            this.source.dimensions, 
-            this.config
+            this.source.dimensions,
+            this.config,
+            this
         );
         this.drawer = new $.Drawer(
             this.source, 

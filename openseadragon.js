@@ -1725,8 +1725,9 @@ $.extend($.Viewer.prototype, $.EventHandler.prototype, {
         }
         this.viewport = new $.Viewport( 
             this._prevContainerSize, 
-            this.source.dimensions, 
-            this.config
+            this.source.dimensions,
+            this.config,
+            this
         );
         this.drawer = new $.Drawer(
             this.source, 
@@ -4082,7 +4083,9 @@ $.Drawer.prototype = {
                         );
                     }
                 }
-                _this.viewport.raiseEvent( "tiledrawn" );
+                if (_this.viewport.viewer) {
+                    _this.viewport.viewer.raiseEvent( "tiledrawn" );
+                }
             };
 
             image.onload = function(){
@@ -4133,13 +4136,11 @@ function numberOfTiles( drawer, level ){
 
 (function( $ ){
     
-$.Viewport = function(containerSize, contentSize, config) {
-
-    $.EventHandler.call( this );
-
+$.Viewport = function(containerSize, contentSize, config, viewer) {
     //TODO: this.config is something that should go away but currently the 
     //      Drawer references the viewport.config
     this.config = config;
+    this.viewer = viewer;
     this.zoomPoint = null;
     this.containerSize = containerSize;
     this.contentSize   = contentSize;
@@ -4170,7 +4171,7 @@ $.Viewport = function(containerSize, contentSize, config) {
     this.update();
 };
 
-$.extend($.Viewport.prototype, $.EventHandler.prototype, {
+$.Viewport.prototype = {
     getHomeZoom: function() {
         var aspectFactor = this.contentAspect / this.getAspectRatio();
         return (aspectFactor >= 1) ? 1 : aspectFactor;
@@ -4421,7 +4422,9 @@ $.extend($.Viewport.prototype, $.EventHandler.prototype, {
             this.zoomSpring.springTo(zoom);
         }
 
-        this.raiseEvent( "zoom", this );
+        if (this.viewer) {
+            this.viewer.raiseEvent( "zoom" );
+        }
         this.zoomPoint = refPoint instanceof $.Point ? refPoint : null;
     },
 
@@ -4504,6 +4507,6 @@ $.extend($.Viewport.prototype, $.EventHandler.prototype, {
             bounds.getTopLeft()
         );
     }
-});
+};
 
 }( OpenSeadragon ));
