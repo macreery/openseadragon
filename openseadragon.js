@@ -3940,7 +3940,7 @@ $.Drawer.prototype = {
                         }
 
                         var deltaTime = currentTime - tile.blendStart;
-                        var opacity = _min(1, deltaTime / blendTimeMillis);
+                        var opacity = _min(1, deltaTime / (blendTimeMillis || 1));
                         
                         if (alwaysBlend) {
                             opacity *= levelOpacity;
