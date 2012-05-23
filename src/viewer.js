@@ -688,6 +688,7 @@ function onCanvasClick(tracker, position, quick, shift) {
 function onCanvasDrag(tracker, position, delta, shift) {
     if (this.viewport) {
         this.viewport.panBy(this.viewport.deltaPointsFromPixels(delta.negate()));
+        this.raiseEvent( "drag" );
     }
 };
 
